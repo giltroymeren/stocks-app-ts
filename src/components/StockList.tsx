@@ -21,7 +21,7 @@ const StockList = () => {
         <table>
           <tbody>
             {stockList.map(stock => {
-              return <StockItem key={stock.isin} stock={stock} />
+              return <StockItem key={stock.isin} stock={stock} isConnected={isConnected} />
             })}
           </tbody>
         </table>
