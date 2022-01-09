@@ -7,7 +7,7 @@ const StockList = () => {
     stockList,
     isConnected,
     connectToServer,
-    disconnectFromServer
+    disconnectFromServer,
   } = useContext(StockContext)
 
   useEffect(() => {

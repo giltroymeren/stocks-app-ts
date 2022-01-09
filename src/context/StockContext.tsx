@@ -8,6 +8,8 @@ export interface IStockContext {
   isConnected: boolean,
   connectToServer: any,
   disconnectFromServer: any,
+  subscribeToServer: any,
+  unsubscribeFromServer: any,
   addStock: any,
 }
 
@@ -16,6 +18,8 @@ const initialState = {
   isConnected: false,
   connectToServer: () => { },
   disconnectFromServer: () => { },
+  subscribeToServer: () => { },
+  unsubscribeFromServer: () => { },
   addStock: () => { },
 }
 
@@ -42,7 +46,10 @@ export const StockProvider: React.FC = ({ children }) => {
       }
       webSocket.current.onmessage = function (event: any) {
         console.info('Receiving message')
-        // TODO const data = JSON.parse(event.data)
+
+        const data = JSON.parse(event.data)
+        console.log(data)
+        // TODO set data to UI
       }
       webSocket.current.onclose = function () {
         console.info('Disconnected from WS; attempting reconnection in 1 second... ')
@@ -57,6 +64,36 @@ export const StockProvider: React.FC = ({ children }) => {
 
   // @ts-ignore
   const disconnectFromServer = () => webSocket.current.close()
+
+  const subscribeToServer = (isin: string) => {
+    try {
+      if (webSocket.current !== undefined) {
+        if (webSocket.current.readyState !== WebSocket.OPEN) return;
+
+        console.info('Subscribing via WS')
+        webSocket.current.send(
+          JSON.stringify({ "subscribe": isin })
+        )
+      }
+    } catch (error: any) {
+      console.error(error.message)
+    }
+  }
+
+  const unsubscribeFromServer = (isin: string) => {
+    try {
+      if (webSocket.current !== undefined) {
+        if (webSocket.current.readyState !== WebSocket.OPEN) return;
+
+        console.info('Unsubscribing from WS')
+        webSocket.current.send(
+          JSON.stringify({ "unsubscribe": isin })
+        )
+      }
+    } catch (error: any) {
+      console.error(error.message)
+    }
+  }
 
   const addStock = (isin: string) => {
     dispatch({
@@ -73,6 +110,8 @@ export const StockProvider: React.FC = ({ children }) => {
       ...state,
       connectToServer,
       disconnectFromServer,
+      subscribeToServer,
+      unsubscribeFromServer,
       addStock,
     }}>
     {children}
