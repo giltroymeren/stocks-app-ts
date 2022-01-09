@@ -3,7 +3,7 @@ import { IStockItem } from '../common/types'
 import StockContext from '../context/StockContext'
 
 const StockItem = ({ ...props }) => {
-  const { isin, price } = props.stock
+  const { isin, price, bid, ask } = props.stock
 
   const { subscribeToServer, unsubscribeFromServer } = useContext(StockContext)
 
@@ -11,7 +11,9 @@ const StockItem = ({ ...props }) => {
   return (
     <tr>
       <td>{isin}</td>
-      <td>{price}</td>
+      <td>{price.toFixed(2)}</td>
+      <td>{bid.toFixed(2)}</td>
+      <td>{ask.toFixed(2)}</td>
       <td>
         <button onClick={() => subscribeToServer(isin)}>SUB</button>
       </td>

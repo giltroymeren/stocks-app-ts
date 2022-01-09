@@ -1,6 +1,11 @@
 import React, { createContext, useCallback, useReducer, useRef } from "react"
-import StockReducer, { ACTION_ADD_STOCK, ACTION_SET_CONNECTED, ACTION_SET_DISCONNECTED } from "./StockReducer";
-import { IStockContext } from '../common/types'
+import StockReducer, {
+  ACTION_ADD_STOCK,
+  ACTION_SET_CONNECTED,
+  ACTION_SET_DISCONNECTED,
+  ACTION_UPDATE_STOCK_LIST
+} from "./StockReducer";
+import { IStockContext, IStockItem } from '../common/types'
 
 const DEFAULT_URL = `ws://159.89.15.214:8080/`
 
@@ -38,9 +43,7 @@ export const StockProvider: React.FC = ({ children }) => {
       webSocket.current.onmessage = function (event: any) {
         console.info('Receiving message')
 
-        const data = JSON.parse(event.data)
-        console.log(data)
-        // TODO set data to UI
+        updateStockList(JSON.parse(event.data))
       }
       webSocket.current.onclose = function () {
         console.info('Disconnected from WS; attempting reconnection in 1 second... ')
@@ -96,7 +99,14 @@ export const StockProvider: React.FC = ({ children }) => {
     }
     dispatch({
       type: ACTION_ADD_STOCK,
-      payload: [...state.stockList, newStock]
+      payload: newStock
+    })
+  }
+
+  const updateStockList = (data: IStockItem) => {
+    dispatch({
+      type: ACTION_UPDATE_STOCK_LIST,
+      payload: data
     })
   }
 

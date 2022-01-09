@@ -13,7 +13,7 @@ const SearchBar = () => {
   const onClick = (event: any) => {
     event.preventDefault()
     addStock(isin)
-    // TODO subscribeToServer(isin)
+    subscribeToServer(isin)
     setISIN('')
   }
 
