@@ -1,10 +1,14 @@
 import './App.css';
+import SearchBar from './components/SearchBar'
+import { StockProvider } from './context/StockContext'
 
 function App() {
   return (
-    <div>
+    <StockProvider>
       <h1>Stocks App</h1>
-    </div>
+
+      <SearchBar />
+    </StockProvider>
   );
 }
 
