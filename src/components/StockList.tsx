@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react'
+import StockItem from './StockItem'
 import StockContext from '../context/StockContext'
 
 const StockList = () => {
@@ -19,7 +20,7 @@ const StockList = () => {
         <table>
           <tbody>
             {stockList.map((item: string, index: number) => {
-              return <tr key={index}><td>{item}</td></tr>
+              return <StockItem key={index} isin={item} />
             })}
           </tbody>
         </table>
