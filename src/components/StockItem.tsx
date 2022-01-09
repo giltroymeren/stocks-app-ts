@@ -1,9 +1,13 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import StockContext from '../context/StockContext'
 
 const StockItem = ({ ...props }) => {
   const { isin, price, bid, ask } = props.stock
-  const { subscribeToServer, unsubscribeFromServer } = useContext(StockContext)
+  const {
+    subscribeToServer,
+    unsubscribeFromServer,
+    removeStock,
+  } = useContext(StockContext)
 
   const onSubscribe = () => {
     subscribeToServer(isin)
@@ -11,6 +15,11 @@ const StockItem = ({ ...props }) => {
 
   const onUnsubscribe = () => {
     unsubscribeFromServer(isin)
+  }
+
+  const onRemove = () => {
+    unsubscribeFromServer(isin)
+    removeStock(isin)
   }
 
   // TODO disable sub/unsub buttons
@@ -24,11 +33,15 @@ const StockItem = ({ ...props }) => {
         <>
           <td>
             <button onClick={onSubscribe}
-              className='btn btn-sm btn-outline-success'>SUB</button>
+              className='btn btn-sm btn-outline-primary'>SUB</button>
           </td>
           <td>
             <button onClick={onUnsubscribe}
-              className='btn btn-sm btn-outline-dark'>UNSUB</button>
+              className='btn btn-sm btn-outline-primary'>UNSUB</button>
+          </td>
+          <td>
+            <button onClick={onRemove}
+              className='btn btn-sm btn-outline-dark'>REMOVE</button>
           </td>
         </>
       )}

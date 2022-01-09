@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useReducer, useRef } from "react"
 import StockReducer, {
   ACTION_ADD_STOCK,
+  ACTION_REMOVE_STOCK,
   ACTION_SET_CONNECTED,
   ACTION_SET_DISCONNECTED,
   ACTION_UPDATE_STOCK_LIST
@@ -17,6 +18,7 @@ const initialState = {
   subscribeToServer: () => { },
   unsubscribeFromServer: () => { },
   addStock: () => { },
+  removeStock: () => { },
 }
 
 const StockContext = createContext<IStockContext>(initialState)
@@ -103,6 +105,13 @@ export const StockProvider: React.FC = ({ children }) => {
     })
   }
 
+  const removeStock = (isin: string) => {
+    dispatch({
+      type: ACTION_REMOVE_STOCK,
+      payload: isin
+    })
+  }
+
   const updateStockList = (data: IStockItem) => {
     dispatch({
       type: ACTION_UPDATE_STOCK_LIST,
@@ -121,6 +130,7 @@ export const StockProvider: React.FC = ({ children }) => {
       subscribeToServer,
       unsubscribeFromServer,
       addStock,
+      removeStock,
     }}>
     {children}
   </StockContext.Provider>

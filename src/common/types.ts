@@ -6,6 +6,7 @@ export interface IStockContext {
   subscribeToServer: any,
   unsubscribeFromServer: any,
   addStock: any,
+  removeStock: any,
 }
 
 export interface IStockItem {

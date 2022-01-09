@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import StockItem from './StockItem'
 import StockContext from '../context/StockContext'
-import { IStockItem } from '../common/types'
 
 const StockList = () => {
   const {
@@ -13,7 +12,7 @@ const StockList = () => {
 
   useEffect(() => {
     connectToServer()
-  }, [stockList])
+  })
 
   return (
     <>
@@ -35,6 +34,7 @@ const StockList = () => {
                   <th scope="col">Price</th>
                   <th scope="col">Bid</th>
                   <th scope="col">Ask</th>
+                  <th scope="col"></th>
                   <th scope="col"></th>
                   <th scope="col"></th>
                 </tr>
