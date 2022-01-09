@@ -1,17 +1,8 @@
 import React, { createContext, useCallback, useReducer, useRef } from "react"
 import StockReducer, { ACTION_ADD_STOCK, ACTION_SET_CONNECTED, ACTION_SET_DISCONNECTED } from "./StockReducer";
+import { IStockContext } from '../common/types'
 
 const DEFAULT_URL = `ws://159.89.15.214:8080/`
-
-export interface IStockContext {
-  stockList: string[],
-  isConnected: boolean,
-  connectToServer: any,
-  disconnectFromServer: any,
-  subscribeToServer: any,
-  unsubscribeFromServer: any,
-  addStock: any,
-}
 
 const initialState = {
   stockList: [],
@@ -70,7 +61,8 @@ export const StockProvider: React.FC = ({ children }) => {
       if (webSocket.current !== undefined) {
         if (webSocket.current.readyState !== WebSocket.OPEN) return;
 
-        console.info('Subscribing via WS')
+        console.info(`Subscribing via WS: ${isin}`)
+
         webSocket.current.send(
           JSON.stringify({ "subscribe": isin })
         )
@@ -85,7 +77,7 @@ export const StockProvider: React.FC = ({ children }) => {
       if (webSocket.current !== undefined) {
         if (webSocket.current.readyState !== WebSocket.OPEN) return;
 
-        console.info('Unsubscribing from WS')
+        console.info(`Unsubscribing from WS: ${isin}`)
         webSocket.current.send(
           JSON.stringify({ "unsubscribe": isin })
         )
@@ -96,9 +88,15 @@ export const StockProvider: React.FC = ({ children }) => {
   }
 
   const addStock = (isin: string) => {
+    const newStock = {
+      isin: isin,
+      price: 0,
+      bid: 0,
+      ask: 0
+    }
     dispatch({
       type: ACTION_ADD_STOCK,
-      payload: [...state.stockList, isin]
+      payload: [...state.stockList, newStock]
     })
   }
 

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import StockContext from '../context/StockContext'
 
 const SearchBar = () => {
-  const { addStock } = useContext(StockContext)
+  const { addStock, subscribeToServer } = useContext(StockContext)
 
   const [isin, setISIN] = useState('')
 
@@ -13,6 +13,7 @@ const SearchBar = () => {
   const onClick = (event: any) => {
     event.preventDefault()
     addStock(isin)
+    // TODO subscribeToServer(isin)
     setISIN('')
   }
 

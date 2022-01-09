@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import StockItem from './StockItem'
 import StockContext from '../context/StockContext'
+import { IStockItem } from '../common/types'
 
 const StockList = () => {
   const {
@@ -12,15 +13,15 @@ const StockList = () => {
 
   useEffect(() => {
     connectToServer()
-  })
+  }, [stockList])
 
   return (
     <>
       {stockList.length === 0 ? <h3>Nothing to show...</h3> : (
         <table>
           <tbody>
-            {stockList.map((item: string, index: number) => {
-              return <StockItem key={index} isin={item} />
+            {stockList.map(stock => {
+              return <StockItem key={stock.isin} stock={stock} />
             })}
           </tbody>
         </table>

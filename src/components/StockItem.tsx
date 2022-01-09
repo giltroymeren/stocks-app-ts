@@ -1,18 +1,17 @@
 import React, { useContext } from 'react'
+import { IStockItem } from '../common/types'
 import StockContext from '../context/StockContext'
 
-interface IStockItem {
-  isin: string
-}
-
-const StockItem = (props: IStockItem) => {
-  const { isin } = props
+const StockItem = ({ ...props }) => {
+  const { isin, price } = props.stock
 
   const { subscribeToServer, unsubscribeFromServer } = useContext(StockContext)
 
+  // TODO unique subscribe & unsubscribe action listeners? for each stock
   return (
     <tr>
       <td>{isin}</td>
+      <td>{price}</td>
       <td>
         <button onClick={() => subscribeToServer(isin)}>SUB</button>
       </td>
