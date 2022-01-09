@@ -16,21 +16,22 @@ const StockItem = ({ ...props }) => {
   // TODO disable sub/unsub buttons
   return (
     <tr>
-      <td>{isin}</td>
+      <td><strong>{isin}</strong></td>
       <td>{price.toFixed(2)}</td>
       <td>{bid.toFixed(2)}</td>
       <td>{ask.toFixed(2)}</td>
       {props.isConnected && (
         <>
           <td>
-            <button onClick={onSubscribe}>SUB</button>
+            <button onClick={onSubscribe}
+              className='btn btn-sm btn-outline-success'>SUB</button>
           </td>
           <td>
-            <button onClick={onUnsubscribe}>UNSUB</button>
+            <button onClick={onUnsubscribe}
+              className='btn btn-sm btn-outline-dark'>UNSUB</button>
           </td>
         </>
       )}
-
     </tr>
   )
 }

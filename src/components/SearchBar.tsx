@@ -18,14 +18,25 @@ const SearchBar = () => {
   }
 
   return (
-    <form>
-      <input type="text"
-        name="isin"
-        placeholder='Enter the ISIN'
-        value={isin}
-        onChange={onChange} />
-      <button onClick={onClick}>Check</button>
-    </form>
+    <div className='d-flex justify-content-center'>
+      <form className='form-inline m-4 align-items-center'>
+        <label htmlFor="isin"
+          className="my-1 mr-2">ISIN
+        </label>
+
+        <input type="text"
+          name="isin"
+          className='form-control my-1 mr-2'
+          placeholder='Enter the ISIN'
+          value={isin}
+          onChange={onChange} />
+
+        <button onClick={onClick}
+          className='btn btn-primary my-1'>
+          Check
+        </button>
+      </form>
+    </div>
   )
 }
 
