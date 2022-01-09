@@ -1,5 +1,6 @@
 import './App.css';
 import SearchBar from './components/SearchBar'
+import StockList from './components/StockList'
 import { StockProvider } from './context/StockContext'
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
       <h1>Stocks App</h1>
 
       <SearchBar />
+      <StockList />
     </StockProvider>
   );
 }

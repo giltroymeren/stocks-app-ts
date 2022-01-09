@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import StockContext from '../context/StockContext'
 
 const SearchBar = () => {
-  const { stockList, addStock } = useContext(StockContext)
+  const { addStock } = useContext(StockContext)
 
   const [isin, setISIN] = useState('')
 
