@@ -7,6 +7,7 @@ import StockReducer, {
   ACTION_UPDATE_STOCK_LIST
 } from "./StockReducer";
 import { IStockContext, IStockItem } from '../common/types'
+import { throttle } from 'lodash'
 
 const DEFAULT_URL = `ws://159.89.15.214:8080/`
 
@@ -45,7 +46,8 @@ export const StockProvider: React.FC = ({ children }) => {
       webSocket.current.onmessage = function (event: any) {
         console.info('Receiving message')
 
-        updateStockList(JSON.parse(event.data))
+        // updateStockList(JSON.parse(event.data))
+        throttledUpdateStockList(JSON.parse(event.data))
       }
       webSocket.current.onclose = function () {
         console.info('Disconnected from WS; attempting reconnection in 1 second... ')
@@ -56,7 +58,7 @@ export const StockProvider: React.FC = ({ children }) => {
     } catch (event: any) {
       console.error(event.message)
     }
-  }, [webSocket])
+  }, [])
 
   // @ts-ignore
   const disconnectFromServer = () => webSocket.current.close()
@@ -118,6 +120,10 @@ export const StockProvider: React.FC = ({ children }) => {
       payload: data
     })
   }
+
+  const throttledUpdateStockList = useRef(
+    useCallback(throttle((data: IStockItem) => updateStockList(data), 1000), [])
+  ).current
 
   const setConnected = () => dispatch({ type: ACTION_SET_CONNECTED })
   const setDisconnected = () => dispatch({ type: ACTION_SET_DISCONNECTED })
